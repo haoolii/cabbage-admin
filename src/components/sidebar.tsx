@@ -1,3 +1,4 @@
+"use client"
 import * as React from "react";
 
 import {
@@ -14,6 +15,9 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 import { NavUser } from "./navUser";
+import Link from "next/link";
+
+import { usePathname } from 'next/navigation'
 
 // This is sample data.
 const data = {
@@ -44,17 +48,17 @@ const data = {
       url: "#",
       items: [
         {
-          title: "Records",
-          url: "#",
+          title: "Record",
+          url: "/record",
         },
         {
-          title: "Urls",
-          url: "#",
+          title: "Url",
+          url: "/url",
           //   isActive: true,
         },
         {
-          title: "Assets",
-          url: "#",
+          title: "Asset",
+          url: "/asset",
         },
       ],
     },
@@ -88,6 +92,10 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const pathname = usePathname()
+
+  const currentPath = pathname;
+
   return (
     <Sidebar {...props}>
       <SidebarHeader>
@@ -106,8 +114,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               <SidebarMenu>
                 {item.items.map((item) => (
                   <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild isActive={item.isActive}>
-                      <a href={item.url}>{item.title}</a>
+                    <SidebarMenuButton asChild isActive={currentPath.includes(item.url)}>
+                      <Link href={`/a${item.url}`}>{item.title}</Link>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 ))}

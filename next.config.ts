@@ -6,6 +6,7 @@ const nextConfig: NextConfig = {
     CLIENT_BASE: process.env.CLIENT_BASE,
     CLIENT_API_BASE: process.env.CLIENT_API_BASE,
     APP_NAME: process.env.APP_NAME,
+    NEXT_PUBLIC_TURNSTILE_SITE_KEY: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY,
   },
   async rewrites() {
     return [

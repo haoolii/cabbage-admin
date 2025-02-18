@@ -7,6 +7,7 @@ export type ApiResponse<T> = {
 export type PostLoginBody = {
   email: string;
   password: string;
+  captchToken: string;
 };
 
 export type PostLoginResponse = ApiResponse<{

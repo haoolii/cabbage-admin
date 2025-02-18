@@ -6,6 +6,7 @@ import {
   getCoreRowModel,
   getPaginationRowModel,
   PaginationState,
+  SortingState,
   useReactTable,
 } from "@tanstack/react-table";
 
@@ -28,6 +29,7 @@ interface DataTableProps<TData, TValue> {
   page: number;
   total: number;
   onPaginationChange: (page: number) => void;
+  onSortingChange?: (field: keyof TData, desc: boolean) => void;
 }
 
 export function DataTable<TData, TValue>({
@@ -37,7 +39,10 @@ export function DataTable<TData, TValue>({
   size,
   total,
   onPaginationChange,
+  onSortingChange
 }: DataTableProps<TData, TValue>) {
+  const [sorting, setSorting] = useState<SortingState>([])
+
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: page,
     pageSize: size,
@@ -58,10 +63,12 @@ export function DataTable<TData, TValue>({
     getPaginationRowModel: getPaginationRowModel(),
     rowCount: total,
     state: {
-      pagination
+      pagination,
+      sorting
     },
     manualPagination: true,
     onPaginationChange: setPagination,
+    onSortingChange: setSorting
   });
 
   return (

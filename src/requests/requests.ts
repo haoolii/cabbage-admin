@@ -31,10 +31,11 @@ authAxios.interceptors.request.use(
   }
 );
 
-export const postLogin = async ({ email, password }: PostLoginBody) => {
+export const postLogin = async ({ email, password, captchToken }: PostLoginBody) => {
   return publicAxios.post<PostLoginResponse>(api.postLogin, {
     email,
     password,
+    captchToken
   });
 };
 

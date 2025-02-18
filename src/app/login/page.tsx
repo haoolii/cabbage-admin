@@ -12,8 +12,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { postLogin } from "@/requests/requests";
-import { useForm } from "@tanstack/react-form";
+import { useForm, useStore } from "@tanstack/react-form";
 import { useRouter } from "next/navigation";
+import { Turnstile } from "next-turnstile";
+import { useEffect, useRef, useState } from "react";
+import env from "@/core/env";
 
 const setCookie = (name: string, value: string) => {
   const expires = new Date();
@@ -23,24 +26,39 @@ const setCookie = (name: string, value: string) => {
 
 export default function LoginPage() {
   const router = useRouter();
+
   const form = useForm<{
     email: string;
     password: string;
+    captchToken: string;
   }>({
     defaultValues: {
       email: "",
       password: "",
+      captchToken: "",
     },
     onSubmit: async ({ value }) => {
       console.log(value);
       const response = await postLogin({
         email: value.email,
-        password: value.password
+        password: value.password,
+        captchToken: value.captchToken,
       });
       const data = response.data;
-      console.log(data.data.token)
-      setCookie('Authorization', `Bearer ${data.data.token}`);
-      router.push('/a')
+      console.log(data.data.token);
+      setCookie("Authorization", `Bearer ${data.data.token}`);
+      router.push("/a");
+    },
+    validators: {
+      onSubmit: (v) => {
+        return {
+          fields: {
+            email: !v.value.email ? "required" : undefined,
+            password: !v.value.password ? "required" : undefined,
+            captchToken: !v.value.captchToken ? "required" : undefined,
+          },
+        };
+      },
     },
   });
 
@@ -51,6 +69,7 @@ export default function LoginPage() {
           e.preventDefault();
           e.stopPropagation();
           await form.validateAllFields("submit");
+          console.log(form.state.errors);
           form.handleSubmit();
         }}
       >
@@ -64,7 +83,14 @@ export default function LoginPage() {
               name="email"
               children={(field) => (
                 <div className="flex flex-col space-y-1.5">
-                  <Label htmlFor="email">Email</Label>
+                  <Label htmlFor="email">
+                    {field.state.meta.errors.length ? (
+                      <b className="text-red-400 mr-1">*</b>
+                    ) : (
+                      ""
+                    )}
+                    Email
+                  </Label>
                   <Input
                     id="email"
                     placeholder="Please enter the email"
@@ -95,6 +121,25 @@ export default function LoginPage() {
             />
           </CardContent>
           <CardFooter className="flex flex-col gap-4">
+            <form.Field
+              name="captchToken"
+              children={(field) => (
+                <Turnstile
+                  siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
+                  retry="auto"
+                  execution="render"
+                  refreshExpired="auto"
+                  sandbox={env.NODE_ENV === "development"}
+                  onError={() => {}}
+                  onExpire={() => {}}
+                  onLoad={() => {}}
+                  onVerify={(token) => {
+                    field.handleChange(token);
+                  }}
+                />
+              )}
+            />
+
             <form.Subscribe
               selector={(state) => [state.canSubmit, state.isSubmitting]}
               children={([canSubmit, isSubmitting]) => (

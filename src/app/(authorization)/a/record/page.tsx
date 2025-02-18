@@ -9,6 +9,8 @@ import dayjs from "dayjs";
 import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import duration from "dayjs/plugin/duration";
+import { Button } from "@/components/ui/button";
+import { ArrowUpDown } from "lucide-react";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -52,7 +54,19 @@ export const columns: ColumnDef<RecordType>[] = [
   },
   {
     accessorKey: "createdAt",
-    header: "CreatedAt",
+    enableSorting: true,
+    header: ({ column }) => {
+      return (
+        <Button
+          size="sm"
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          CreatedAt
+          <ArrowUpDown />
+        </Button>
+      )
+    },
     cell: ({ row }) => {
       return dayjs
         .utc(row.getValue("createdAt"))

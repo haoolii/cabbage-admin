@@ -17,6 +17,7 @@ export type PostLoginResponse = ApiResponse<{
 export type GetRecordsParams = {
   page: number;
   size: number;
+  uniqueId?: string;
 };
 
 export type RecordType = {
@@ -34,5 +35,45 @@ export type RecordType = {
 
 export type GetRecordsResponse = ApiResponse<{
   records: RecordType[];
+  total: number;
+}>;
+
+export type GetUrlsParams = {
+  page: number;
+  size: number;
+  recordId?: string;
+  content?: string;
+};
+
+export type UrlType = {
+  id: string;
+  recordId: string;
+  content: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type GetUrlsResponse = ApiResponse<{
+  urls: UrlType[];
+  total: number;
+}>;
+
+export type GetAssetsParams = {
+  page: number;
+  size: number;
+  recordId?: string;
+  key?: string;
+};
+
+export type AssetType = {
+  id: string;
+  recordId: string;
+  key: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type GetAssetsResponse = ApiResponse<{
+  assets: AssetType[];
   total: number;
 }>;

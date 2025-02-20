@@ -1,8 +1,12 @@
 import axios from "axios";
 import { api } from "./endpoint";
 import {
+  GetAssetsParams,
+  GetAssetsResponse,
   GetRecordsParams,
   GetRecordsResponse,
+  GetUrlsParams,
+  GetUrlsResponse,
   PostLoginBody,
   PostLoginResponse,
 } from "./types";
@@ -39,11 +43,34 @@ export const postLogin = async ({ email, password, captchToken }: PostLoginBody)
   });
 };
 
-export const getRecords = async ({ page, size }: GetRecordsParams) => {
+export const getRecords = async ({ page, size, uniqueId }: GetRecordsParams) => {
   return authAxios.get<GetRecordsResponse>(api.getRecords, {
     params: {
       page,
       size,
+      uniqueId
+    },
+  });
+};
+
+export const getUrls = async ({ page, size, recordId, content }: GetUrlsParams) => {
+  return authAxios.get<GetUrlsResponse>(api.getUrls, {
+    params: {
+      page,
+      size,
+      recordId,
+      content
+    },
+  });
+};
+
+export const getAssets = async ({ page, size, recordId, key }: GetAssetsParams) => {
+  return authAxios.get<GetAssetsResponse>(api.getAssets, {
+    params: {
+      page,
+      size,
+      recordId,
+      key
     },
   });
 };

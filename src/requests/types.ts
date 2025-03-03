@@ -18,7 +18,20 @@ export type GetRecordsParams = {
   page: number;
   size: number;
   uniqueId?: string;
+  createdAtLt?: string;
+  createdAtGt?: string;
 };
+
+export type DeleteRecordParams = {
+  id: string;
+};
+
+export type DeleteRecordBody = {
+  soft: boolean;
+};
+
+export type DeleteRecordResponse = ApiResponse<null>;
+
 
 export type RecordType = {
   id: string;

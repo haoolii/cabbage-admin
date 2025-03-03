@@ -1,6 +1,9 @@
 import axios from "axios";
 import { api } from "./endpoint";
 import {
+  DeleteRecordBody,
+  DeleteRecordParams,
+  DeleteRecordResponse,
   GetAssetsParams,
   GetAssetsResponse,
   GetRecordsParams,
@@ -10,6 +13,7 @@ import {
   PostLoginBody,
   PostLoginResponse,
 } from "./types";
+import { replacePathParams } from "./util";
 
 const publicAxios = axios.create({});
 
@@ -22,7 +26,7 @@ authAxios.interceptors.request.use(
       .find((row) => row.startsWith("Authorization="))
       ?.split("=")[1];
 
-      console.log('token', token);
+    console.log("token", token);
 
     if (token) {
       config.headers["Authorization"] = token;
@@ -35,42 +39,77 @@ authAxios.interceptors.request.use(
   }
 );
 
-export const postLogin = async ({ email, password, captchToken }: PostLoginBody) => {
+export const postLogin = async ({
+  email,
+  password,
+  captchToken,
+}: PostLoginBody) => {
   return publicAxios.post<PostLoginResponse>(api.postLogin, {
     email,
     password,
-    captchToken
+    captchToken,
   });
 };
 
-export const getRecords = async ({ page, size, uniqueId }: GetRecordsParams) => {
+export const getRecords = async ({
+  page,
+  size,
+  uniqueId,
+  createdAtGt,
+  createdAtLt
+}: GetRecordsParams) => {
   return authAxios.get<GetRecordsResponse>(api.getRecords, {
     params: {
       page,
       size,
-      uniqueId
+      uniqueId,
+      createdAtGt,
+      createdAtLt
     },
   });
 };
 
-export const getUrls = async ({ page, size, recordId, content }: GetUrlsParams) => {
+export const deleteRecord = async (
+  { id }: DeleteRecordParams,
+  { soft }: DeleteRecordBody
+) => {
+  const url = replacePathParams(api.deleteRecord, { id });
+
+  return authAxios.delete<DeleteRecordResponse>(url, {
+    data: {
+      soft,
+    },
+  });
+};
+
+export const getUrls = async ({
+  page,
+  size,
+  recordId,
+  content,
+}: GetUrlsParams) => {
   return authAxios.get<GetUrlsResponse>(api.getUrls, {
     params: {
       page,
       size,
       recordId,
-      content
+      content,
     },
   });
 };
 
-export const getAssets = async ({ page, size, recordId, key }: GetAssetsParams) => {
+export const getAssets = async ({
+  page,
+  size,
+  recordId,
+  key,
+}: GetAssetsParams) => {
   return authAxios.get<GetAssetsResponse>(api.getAssets, {
     params: {
       page,
       size,
       recordId,
-      key
+      key,
     },
   });
 };

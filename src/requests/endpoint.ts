@@ -6,6 +6,7 @@ const base = `${env.CLIENT_API_BASE}/d/admin`;
 const paths = {
   postLogin: "/auth/login",
   getRecords: "/records",
+  deleteRecord: "/records/:id",
   getUrls: "/urls",
   getAssets: "/assets",
 };

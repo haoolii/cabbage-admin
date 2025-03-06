@@ -6,12 +6,17 @@ import {
   DeleteRecordResponse,
   GetAssetsParams,
   GetAssetsResponse,
+  GetRecordReportsParams,
+  GetRecordReportsResponse,
   GetRecordsParams,
   GetRecordsResponse,
   GetUrlsParams,
   GetUrlsResponse,
   PostLoginBody,
   PostLoginResponse,
+  PutRecordReportsBody,
+  PutRecordReportsPathParams,
+  PutRecordReportsResponse,
 } from "./types";
 import { replacePathParams } from "./util";
 
@@ -56,7 +61,7 @@ export const getRecords = async ({
   size,
   uniqueId,
   createdAtGt,
-  createdAtLt
+  createdAtLt,
 }: GetRecordsParams) => {
   return authAxios.get<GetRecordsResponse>(api.getRecords, {
     params: {
@@ -64,7 +69,7 @@ export const getRecords = async ({
       size,
       uniqueId,
       createdAtGt,
-      createdAtLt
+      createdAtLt,
     },
   });
 };
@@ -112,4 +117,25 @@ export const getAssets = async ({
       key,
     },
   });
+};
+
+export const getRecordReports = async ({
+  page,
+  size,
+}: GetRecordReportsParams) => {
+  return authAxios.get<GetRecordReportsResponse>(api.getRecordReports, {
+    params: {
+      page,
+      size,
+    },
+  });
+};
+
+export const putRecordReports = async (
+  { recordReportId }: PutRecordReportsPathParams,
+  body: PutRecordReportsBody
+) => {
+  const url = replacePathParams(api.putRecordReports, { recordReportId });
+  console.log('url', url)
+  return authAxios.put<PutRecordReportsResponse>(url, { data: body });
 };

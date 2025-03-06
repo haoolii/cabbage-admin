@@ -44,6 +44,16 @@ const data = {
       ],
     },
     {
+      title: "Operator", 
+      url: "#",
+      items: [
+        {
+          title: "Record Report",
+          url: "/record-report",
+        },
+      ]
+    },
+    {
       title: "Data",
       url: "#",
       items: [

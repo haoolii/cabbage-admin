@@ -9,6 +9,8 @@ const paths = {
   deleteRecord: "/records/:id",
   getUrls: "/urls",
   getAssets: "/assets",
+  getRecordReports: "/recordReports",
+  putRecordReports: "/recordReports/:recordReportId",
 };
 
 export const api = createApi(paths, base);

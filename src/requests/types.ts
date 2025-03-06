@@ -32,7 +32,6 @@ export type DeleteRecordBody = {
 
 export type DeleteRecordResponse = ApiResponse<null>;
 
-
 export type RecordType = {
   id: string;
   uniqueId: string;
@@ -90,3 +89,32 @@ export type GetAssetsResponse = ApiResponse<{
   assets: AssetType[];
   total: number;
 }>;
+
+export type GetRecordReportsParams = {
+  page: number;
+  size: number;
+};
+
+export type RecordReportType = {
+  content: string;
+  createdAt: string;
+  id: string;
+  ipAddress: string;
+  isDeleted: boolean;
+  recordId: string;
+  record: RecordType;
+};
+
+export type GetRecordReportsResponse = ApiResponse<{
+  recordReports: RecordReportType[];
+  total: number;
+}>;
+
+
+export type PutRecordReportsPathParams = {
+  recordReportId: string;
+};
+
+export type PutRecordReportsBody = Partial<Omit<RecordReportType, 'id' | 'createdAt' | 'record'>>
+
+export type PutRecordReportsResponse = ApiResponse<null>;

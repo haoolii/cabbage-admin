@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getAssets, getRecords } from "@/requests/requests";
-import { AssetType, RecordType } from "@/requests/types";
+import { getAssets } from "@/requests/requests";
+import { AssetType } from "@/requests/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTable } from "@/components/dataTable";
 import dayjs from "dayjs";
@@ -10,7 +10,6 @@ import utc from "dayjs/plugin/utc";
 import timezone from "dayjs/plugin/timezone";
 import duration from "dayjs/plugin/duration";
 import { Button } from "@/components/ui/button";
-import { ArrowUpDown } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useForm } from "@tanstack/react-form";
 
@@ -20,7 +19,7 @@ dayjs.extend(duration);
 
 const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-export const columns: ColumnDef<AssetType>[] = [
+const columns: ColumnDef<AssetType>[] = [
   {
     accessorKey: "id",
     header: "Id",
@@ -65,7 +64,7 @@ export default function Page() {
 
   useEffect(() => {
     fetchData();
-  }, [page, recordId, key]);
+  }, [page, recordId, key, fetchData]);
 
   const form = useForm<{
     recordId: string;

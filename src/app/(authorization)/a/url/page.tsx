@@ -19,7 +19,7 @@ dayjs.extend(duration);
 
 const userTimeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-export const columns: ColumnDef<UrlType>[] = [
+const columns: ColumnDef<UrlType>[] = [
   {
     accessorKey: "id",
     header: "Id",
@@ -78,7 +78,7 @@ export default function Page() {
 
   useEffect(() => {
     fetchData();
-  }, [page, recordId, content]);
+  }, [fetchData, page, recordId, content]);
 
   return (
     <div>

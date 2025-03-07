@@ -56,7 +56,7 @@ export default function Page() {
 
   useEffect(() => {
     fetchData();
-  }, [page, uniqueId, createdAtLt]);
+  }, [fetchData, page, uniqueId, createdAtLt]);
 
   const columns: ColumnDef<RecordType>[] = [
     {

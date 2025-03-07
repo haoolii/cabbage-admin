@@ -12,10 +12,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { postLogin } from "@/requests/requests";
-import { useForm, useStore } from "@tanstack/react-form";
+import { useForm } from "@tanstack/react-form";
 import { useRouter } from "next/navigation";
 import { Turnstile } from "next-turnstile";
-import { useEffect, useRef, useState } from "react";
 import env from "@/core/env";
 
 const setCookie = (name: string, value: string) => {

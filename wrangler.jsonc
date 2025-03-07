@@ -1,0 +1,16 @@
+{
+  "main": ".open-next/worker.js",
+  "name": "cabbage-admin",
+  "compatibility_date": "2024-09-23",
+  "compatibility_flags": ["nodejs_compat"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "kv_namespaces": [
+    {
+      "binding": "CABBAGE_ADMIN_NEXT_CACHE_WORKERS_KV",
+      "id": "a9aa56bdd2284452a4e7902924b0cc93"
+    }
+  ]
+}
